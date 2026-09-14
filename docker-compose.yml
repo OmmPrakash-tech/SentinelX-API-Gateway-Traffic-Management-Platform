@@ -1,0 +1,68 @@
+name: sentinelx
+services:
+  database:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: sentinelx
+      POSTGRES_USER: sentinelx
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U sentinelx -d sentinelx]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  gateway:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - 127.0.0.1:8080:8080
+    environment:
+      DATABASE_URL: jdbc:postgresql://database:5432/sentinelx
+      DATABASE_USER: sentinelx
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DEMO_SEED: 'true'
+      DEMO_HOST: docker
+      RESET_DIRECTORY: /app/data/reset-mailbox
+    volumes:
+      - gateway-data:/app/data
+    depends_on:
+      database:
+        condition: service_healthy
+  user-service:
+    build:
+      context: .
+      dockerfile: services/Dockerfile
+    environment:
+      SERVICE_NAME: user
+      PORT: 9100
+      INSTANCE_ID: user-a
+  user-service-2:
+    build:
+      context: .
+      dockerfile: services/Dockerfile
+    environment:
+      SERVICE_NAME: user
+      PORT: 9100
+      INSTANCE_ID: user-b
+  product-service:
+    build:
+      context: .
+      dockerfile: services/Dockerfile
+    environment:
+      SERVICE_NAME: product
+      PORT: 9100
+      INSTANCE_ID: product-a
+  order-service:
+    build:
+      context: .
+      dockerfile: services/Dockerfile
+    environment:
+      SERVICE_NAME: order
+      PORT: 9100
+      INSTANCE_ID: order-a
+volumes:
+  pgdata:
+  gateway-data:

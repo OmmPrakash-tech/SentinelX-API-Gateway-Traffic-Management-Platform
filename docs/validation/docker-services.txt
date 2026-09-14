@@ -1,0 +1,6 @@
+database running healthy
+gateway running 
+order-service running 
+product-service running 
+user-service running 
+user-service-2 running 

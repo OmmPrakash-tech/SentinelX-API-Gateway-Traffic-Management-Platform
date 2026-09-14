@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-09-14T15:16:54.391Z",
+  "base": "http://localhost:8080",
+  "results": [
+    {
+      "name": "Gateway and embedded frontend available",
+      "status": "PASS"
+    },
+    {
+      "name": "Admin and developer sign-in",
+      "status": "PASS"
+    },
+    {
+      "name": "Backend role authorization and safe user list",
+      "status": "PASS"
+    },
+    {
+      "name": "All four upstream instances healthy",
+      "status": "PASS"
+    },
+    {
+      "name": "Create API key and distribute requests",
+      "status": "PASS"
+    },
+    {
+      "name": "Product and order forwarding and product CRUD",
+      "status": "PASS"
+    },
+    {
+      "name": "Metrics, logs and quota reflect real requests",
+      "status": "PASS"
+    },
+    {
+      "name": "Rotation revokes old secret and activates new secret",
+      "status": "PASS"
+    },
+    {
+      "name": "Revocation invalidates API key",
+      "status": "PASS"
+    },
+    {
+      "name": "Logout invalidates the session",
+      "status": "PASS"
+    }
+  ]
+}

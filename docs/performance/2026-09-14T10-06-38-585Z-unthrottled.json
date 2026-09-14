@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-09-14T10:06:38.585Z",
+  "base": "http://localhost:8080",
+  "scenario": "Rate policies temporarily disabled; authentication, persistence and gateway enabled",
+  "node": "v24.14.1",
+  "os": "Windows_NT 10.0.26200",
+  "cpu": "13th Gen Intel(R) Core(TM) i5-13420H",
+  "logicalCpus": 12,
+  "concurrency": 20,
+  "results": [
+    {
+      "requests": 100,
+      "durationMs": 310.77199999999993,
+      "requestsPerSecond": 321.7793108774279,
+      "p50Ms": 45.872699999999895,
+      "p95Ms": 127.09270000000015,
+      "p99Ms": 136.97379999999976,
+      "errors": 0,
+      "errorRate": 0,
+      "statuses": {
+        "200": 100
+      },
+      "gatewayBefore": {
+        "CPU": 29.875,
+        "WorkingSet64": 258379776,
+        "PeakWorkingSet64": 270172160,
+        "HandleCount": 674
+      },
+      "gatewayAfter": {
+        "CPU": 32.3125,
+        "WorkingSet64": 274735104,
+        "PeakWorkingSet64": 290758656,
+        "HandleCount": 921
+      },
+      "gatewayCpuSeconds": 2.4375
+    },
+    {
+      "requests": 1000,
+      "durationMs": 1471.5809,
+      "requestsPerSecond": 679.5413014670141,
+      "p50Ms": 27.064500000000407,
+      "p95Ms": 53.88250000000062,
+      "p99Ms": 90.85279999999966,
+      "errors": 0,
+      "errorRate": 0,
+      "statuses": {
+        "200": 1000
+      },
+      "gatewayBefore": {
+        "CPU": 32.328125,
+        "WorkingSet64": 257777664,
+        "PeakWorkingSet64": 290758656,
+        "HandleCount": 921
+      },
+      "gatewayAfter": {
+        "CPU": 43.75,
+        "WorkingSet64": 299659264,
+        "PeakWorkingSet64": 302292992,
+        "HandleCount": 976
+      },
+      "gatewayCpuSeconds": 11.421875
+    },
+    {
+      "requests": 5000,
+      "durationMs": 4595.6587,
+      "requestsPerSecond": 1087.98331782123,
+      "p50Ms": 17.313899999999194,
+      "p95Ms": 23.579499999999825,
+      "p99Ms": 54.71780000000035,
+      "errors": 0,
+      "errorRate": 0,
+      "statuses": {
+        "200": 5000
+      },
+      "gatewayBefore": {
+        "CPU": 43.765625,
+        "WorkingSet64": 267689984,
+        "PeakWorkingSet64": 302292992,
+        "HandleCount": 976
+      },
+      "gatewayAfter": {
+        "CPU": 75.828125,
+        "WorkingSet64": 349888512,
+        "PeakWorkingSet64": 362217472,
+        "HandleCount": 983
+      },
+      "gatewayCpuSeconds": 32.0625
+    },
+    {
+      "requests": 10000,
+      "durationMs": 6292.420900000001,
+      "requestsPerSecond": 1589.2134615470493,
+      "p50Ms": 12.393400000000838,
+      "p95Ms": 19.424800000000687,
+      "p99Ms": 33.186799999999494,
+      "errors": 0,
+      "errorRate": 0,
+      "statuses": {
+        "200": 10000
+      },
+      "gatewayBefore": {
+        "CPU": 75.828125,
+        "WorkingSet64": 349888512,
+        "PeakWorkingSet64": 362217472,
+        "HandleCount": 983
+      },
+      "gatewayAfter": {
+        "CPU": 111.671875,
+        "WorkingSet64": 409202688,
+        "PeakWorkingSet64": 471126016,
+        "HandleCount": 983
+      },
+      "gatewayCpuSeconds": 35.84375
+    }
+  ]
+}
