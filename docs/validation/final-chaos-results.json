@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-09-15T19:01:08.147Z",
+  "results": [
+    {
+      "name": "User, product and order demo services proxy",
+      "status": "PASS"
+    },
+    {
+      "name": "Round robin distributes to two user instances",
+      "status": "PASS"
+    },
+    {
+      "name": "Health failure excludes instance; recovery restores it",
+      "status": "PASS"
+    },
+    {
+      "name": "Transient GET failure retries successfully",
+      "status": "PASS"
+    },
+    {
+      "name": "POST does not retry",
+      "status": "PASS"
+    },
+    {
+      "name": "Timeout returns 504",
+      "status": "PASS"
+    },
+    {
+      "name": "Circuit opens, blocks calls, probes and recovers",
+      "status": "PASS"
+    }
+  ]
+}

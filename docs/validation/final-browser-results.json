@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-16",
+  "application": "http://127.0.0.1:18080",
+  "database": "sentinelx_final_e2e",
+  "roles": {
+    "ADMIN": {"result":"PASS","checks":["Sign in from an already-matching dashboard URL renders the dashboard","Session survives reload","User Management loads","Disable API access for existing isolated demo user","Reloaded account form retains Disabled","Logout returns to sign-in"]},
+    "OPERATOR": {"result":"PASS","checks":["Login redirects to operator workspace","Session survives reload","Run Check now","Four real service instances show HEALTHY","Logout returns to sign-in"]},
+    "DEVELOPER": {"result":"PASS","checks":["Login redirects to developer workspace","Session survives reload","API-key lifecycle records load","POST /gateway/products returns 201 with submitted name","GET created product by path ID returns 200 with matching data","Missing gateway route renders 404 response","Logout returns to sign-in"],"apiKeyLifecycle":"Creation, authenticated forwarding, rotation, ownership, disabling and revocation covered by the live full API suite"},
+    "USER": {"result":"PASS","checks":["Login redirects to personal workspace","Session survives reload","Profile update returns success notification","Reload retains User E2E Verified","Direct PostgreSQL read confirms updated name","Direct admin workspace URL redirects to personal workspace without admin links","Logout returns to sign-in"]}
+  },
+  "consoleErrorsOrWarningsObserved": 0,
+  "backendUnexpectedErrorsObserved": 0,
+  "credentialLeakPatternsInCheckedLogs": 0,
+  "notes": "Browser interactions used the real gateway and PostgreSQL. Destructive account lifecycle checks used the isolated database. Backend endpoint authorization was independently verified by HTTP tests. This is focused verification, not a comprehensive security audit."
+}

@@ -1,0 +1,11 @@
+Verified directly in sentinelx_final_e2e on 2026-09-16:
+User profile name / role / API-enabled: User E2E Verified | USER | false
+Revoked, inactive API keys: 15
+Persisted service-create, instance-register and user-update audit rows: 11
+Successful database migrations: 2
+Successful POST /products request log rows: 5
+
+The browser profile name and administrator API-access change survived reload.
+API-key revocation was recorded in PostgreSQL.
+Service/instance lifecycle operations were verified through database-backed APIs and retained audit records.
+Counts describe the isolated database before teardown, including prior verification attempts.

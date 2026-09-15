@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-15T14:05:34.905Z",
+  "timestamp": "2026-09-15T18:59:06.198Z",
   "base": "http://127.0.0.1:18080",
   "results": [
     {
@@ -40,8 +40,27 @@
     },
     {
       "name": "Dynamic route creation, update, method matching and removal",
-      "status": "FAIL",
-      "error": "OPTIONS /gateway/verify expected 404 got 200 \n\n200 !== 404\n"
+      "status": "PASS"
+    },
+    {
+      "name": "Rate-limit create/update, real rejection, deletion and quota read",
+      "status": "PASS"
+    },
+    {
+      "name": "Own traffic isolation, metrics and administrator audit trail",
+      "status": "PASS"
+    },
+    {
+      "name": "Admin user changes, forced logout and blocked self-demotion",
+      "status": "PASS"
+    },
+    {
+      "name": "Forced password reset, mailbox delivery and single-use reset link",
+      "status": "PASS"
+    },
+    {
+      "name": "Password change, all-session revocation and logout",
+      "status": "PASS"
     }
   ],
   "calls": [
@@ -552,8 +571,272 @@
     {
       "method": "OPTIONS",
       "path": "/gateway/verify",
-      "status": 200,
+      "status": 404,
       "expected": 404
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/routes/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/routes/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/instances/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/services/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/services",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/rate-limits",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/rate-limits/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/rate-limits",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/rate-limits/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/products",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/products",
+      "status": 429,
+      "expected": 429
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/rate-limits/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/products",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/quotas",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/me/keys/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/metrics",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/requests",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/metrics",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/requests",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/audit",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/users",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/{id}",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/force-logout",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/force-reset",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/forgot-password",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset-password",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset-password",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/change-password",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout-all",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 401,
+      "expected": 401
     }
   ],
   "coverage": [
@@ -570,27 +853,27 @@
     {
       "method": "POST",
       "path": "/api/auth/logout",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/auth/logout-all",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/auth/change-password",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/auth/forgot-password",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/auth/reset-password",
-      "covered": false
+      "covered": true
     },
     {
       "method": "GET",
@@ -615,17 +898,17 @@
     {
       "method": "PATCH",
       "path": "/api/admin/users/{id}",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/admin/users/{id}/force-logout",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/admin/users/{id}/force-reset",
-      "covered": false
+      "covered": true
     },
     {
       "method": "GET",
@@ -645,12 +928,12 @@
     {
       "method": "GET",
       "path": "/api/admin/audit",
-      "covered": false
+      "covered": true
     },
     {
       "method": "GET",
       "path": "/api/me/quotas",
-      "covered": false
+      "covered": true
     },
     {
       "method": "*",
@@ -690,7 +973,7 @@
     {
       "method": "GET",
       "path": "/api/me/metrics",
-      "covered": false
+      "covered": true
     },
     {
       "method": "GET",
@@ -700,7 +983,7 @@
     {
       "method": "GET",
       "path": "/api/me/requests",
-      "covered": false
+      "covered": true
     },
     {
       "method": "GET",
@@ -750,7 +1033,7 @@
     {
       "method": "DELETE",
       "path": "/api/admin/services/{id}",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
@@ -760,7 +1043,7 @@
     {
       "method": "DELETE",
       "path": "/api/admin/instances/{id}",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
@@ -775,28 +1058,28 @@
     {
       "method": "PUT",
       "path": "/api/admin/routes/{id}",
-      "covered": false
+      "covered": true
     },
     {
       "method": "DELETE",
       "path": "/api/admin/routes/{id}",
-      "covered": false
+      "covered": true
     },
     {
       "method": "POST",
       "path": "/api/admin/rate-limits",
-      "covered": false
+      "covered": true
     },
     {
       "method": "PUT",
       "path": "/api/admin/rate-limits/{id}",
-      "covered": false
+      "covered": true
     },
     {
       "method": "DELETE",
       "path": "/api/admin/rate-limits/{id}",
-      "covered": false
+      "covered": true
     }
   ],
-  "authThrottleResponses": 0
+  "authThrottleResponses": 3
 }

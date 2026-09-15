@@ -25,12 +25,37 @@ class GatewayIntegrationTest {
         db.update("INSERT INTO service_instances VALUES(?,?,?,?,?,?)",ia,service,"http://localhost:"+a.getAddress().getPort(),"/health",true,Db.now());db.update("INSERT INTO service_instances VALUES(?,?,?,?,?,?)",ib,service,"http://localhost:"+b.getAddress().getPort(),"/health",true,Db.now());
         db.update("INSERT INTO routes(id,path_prefix,methods,service_id,enabled,timeout_ms,retries,backoff_ms,failure_threshold,recovery_ms,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)",route,"/test-"+suffix,"GET,POST",service,true,2000,1,0,2,100,Db.now());registry.check();
     }
-    HttpServer server(String name)throws Exception{var s=HttpServer.create(new InetSocketAddress("localhost",0),0);s.createContext("/",e->{boolean health=e.getRequestURI().getPath().equals("/health");int status=health?(down.get()?503:200):(failures.getAndUpdate(v->Math.max(0,v-1))>0?503:200);if(!health)calls.incrementAndGet();var data=json.writeValueAsBytes(Map.of("instance",name,"requestId",Objects.toString(e.getRequestHeaders().getFirst("X-Request-ID"),""),"authorizationForwarded",e.getRequestHeaders().containsKey("Authorization"),"keyForwarded",e.getRequestHeaders().containsKey("X-API-Key")));e.getResponseHeaders().add("Content-Type","application/json");e.sendResponseHeaders(status,data.length);e.getResponseBody().write(data);e.close();});s.start();return s;}
+    HttpServer server(String name)throws Exception{var s=HttpServer.create(new InetSocketAddress("localhost",0),0);s.createContext("/",e->{boolean health=e.getRequestURI().getPath().equals("/health");int status=health?(down.get()?503:200):(failures.getAndUpdate(v->Math.max(0,v-1))>0?503:200);if(!health)calls.incrementAndGet();var data=json.writeValueAsBytes(Map.of("instance",name,"requestId",Objects.toString(e.getRequestHeaders().getFirst("X-Request-ID"),""),"authorizationForwarded",e.getRequestHeaders().containsKey("Authorization"),"keyForwarded",e.getRequestHeaders().containsKey("X-API-Key"),"method",e.getRequestMethod(),"path",e.getRequestURI().getRawPath(),"query",Objects.toString(e.getRequestURI().getRawQuery(),""),"body",new String(e.getRequestBody().readAllBytes(),java.nio.charset.StandardCharsets.UTF_8),"contentType",Objects.toString(e.getRequestHeaders().getFirst("Content-Type"),"")));e.getResponseHeaders().add("Content-Type","application/json");e.sendResponseHeaders(status,data.length);e.getResponseBody().write(data);e.close();});s.start();return s;}
     @AfterEach void stop(){if(a!=null)a.stop(0);if(b!=null)b.stop(0);db.update("DELETE FROM rate_limit_policies");db.update("UPDATE routes SET enabled=FALSE WHERE id=?",route);db.update("UPDATE services SET enabled=FALSE WHERE id=?",service);}
     String path(){return "/gateway"+Db.str(db.one("SELECT path_prefix FROM routes WHERE id=?",route),"path_prefix");}
     HttpResponse<String> request(String method,String path,String apiKey,String bearer,Object body)throws Exception{
         var builder=HttpRequest.newBuilder(URI.create("http://localhost:"+port+path)).header("X-Request-ID","integration-check").header("Content-Type","application/json");if(apiKey!=null)builder.header("X-API-Key",apiKey);if(bearer!=null)builder.header("Authorization","Bearer "+bearer);
         return client.send(builder.method(method,body==null?HttpRequest.BodyPublishers.noBody():HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build(),HttpResponse.BodyHandlers.ofString());
+    }
+    @Test void allConfiguredMethodsPreserveBodyPathQueryAndSafeHeaders()throws Exception{
+        db.update("UPDATE routes SET methods='GET,POST,PUT,PATCH,DELETE',retries=0 WHERE id=?",route);
+        for(String method:List.of("GET","POST","PUT","PATCH","DELETE")){
+            Object body=method.equals("GET")?null:Map.of("name","Forwarded value");
+            var response=request(method,path()+"/item-123?q=hello%20world&n=2",key,null,body);
+            assertEquals(200,response.statusCode(),method+response.body());
+            var echoed=json.readValue(response.body(),Map.class);
+            assertEquals(method,echoed.get("method"));
+            assertEquals(path().substring("/gateway".length())+"/item-123",echoed.get("path"));
+            assertEquals("q=hello%20world&n=2",echoed.get("query"));
+            assertEquals(body==null?"":json.writeValueAsString(body),echoed.get("body"));
+            assertEquals("application/json",echoed.get("contentType"));
+            assertEquals(false,echoed.get("keyForwarded"));
+            assertEquals(false,echoed.get("authorizationForwarded"));
+            assertTrue(response.headers().firstValue("Content-Type").orElseThrow().startsWith("application/json"));
+        }
+        db.update("UPDATE routes SET retries=2,failure_threshold=100 WHERE id=?",route);
+        for(String method:List.of("POST","PUT","PATCH","DELETE")){
+            failures.set(1);int before=calls.get();
+            var response=request(method,path(),null,admin,Map.of("name","Do not retry"));
+            assertEquals(503,response.statusCode(),method);
+            assertEquals(before+1,calls.get(),method+" must not retry an unsafe request");
+            assertEquals("0",response.headers().firstValue("X-SentinelX-Retries").orElseThrow());
+        }
     }
     @Test void optionsUsesGatewayAuthenticationRoutingAndTelemetry()throws Exception{
         db.update("UPDATE routes SET methods='GET,OPTIONS' WHERE id=?",route);
@@ -88,5 +113,3 @@ class GatewayIntegrationTest {
         assertEquals(200,request("GET","/gateway"+body.get("pathPrefix"),key,null,null).statusCode());body.put("enabled",false);assertEquals(200,request("PUT","/api/admin/routes/"+id,null,admin,body).statusCode());assertEquals(404,request("GET","/gateway"+body.get("pathPrefix"),key,null,null).statusCode());assertEquals(200,request("DELETE","/api/admin/routes/"+id,null,admin,null).statusCode());
     }
 }
-
-

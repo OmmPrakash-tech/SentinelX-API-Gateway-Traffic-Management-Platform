@@ -1,0 +1,5 @@
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.86 s -- in com.example.backend.AccountIntegrationTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.979 s -- in com.example.backend.BackendApplicationTests
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.66 s -- in com.example.backend.GatewayIntegrationTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.221 s -- in com.example.backend.TrafficPrimitivesTest
+Frontend authentication redirect regressions: 4 passed, 0 failed (node --test tests/frontend/auth-redirect.test.mjs).
