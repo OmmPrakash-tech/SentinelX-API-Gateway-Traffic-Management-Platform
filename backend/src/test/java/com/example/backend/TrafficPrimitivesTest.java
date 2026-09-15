@@ -14,3 +14,4 @@ class TrafficPrimitivesTest {
     @Test void circuitAllowsOnlyOneRecoveryProbe(){var c=new TrafficPrimitives.Circuit();assertTrue(c.allow(0,100));c.finish(false,1,0);assertFalse(c.allow(99,100));assertTrue(c.allow(100,100));assertFalse(c.allow(100,100));assertEquals("HALF_OPEN",c.snapshot().get("state"));c.finish(true,1,100);assertEquals("CLOSED",c.snapshot().get("state"));assertTrue(c.allow(101,100));}
     @Test void staleSuccessCannotCloseNewCircuit(){var c=new TrafficPrimitives.Circuit();long first=c.acquire(0,100),second=c.acquire(0,100);c.complete(first,false,1,0);c.complete(second,true,1,1);assertEquals("OPEN",c.snapshot().get("state"));}
 }
+

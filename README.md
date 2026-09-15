@@ -25,7 +25,7 @@ Development accounts all use the intentionally local password **`SentinelX-Local
 
 Accounts are seeded only when demo seeding is explicitly enabled, including the `dev` profile. These are not deployment credentials. Full details: [development credentials](docs/development-credentials.md).
 
-The startup script selects installed JDK 25, builds the existing Maven project, and runs four Node demo processes plus the gateway in hidden windows. It records process IDs and start times so stopping targets only the processes it launched. Local database and reset-mailbox files live in `backend/data/`; logs and process metadata are in `work/`.
+The startup script selects installed JDK 25, builds the existing Maven project, and runs four Node demo processes plus the gateway in hidden windows. It records process IDs and start times so stopping targets only the processes it launched. Local PostgreSQL connection settings and reset-mailbox files live in `backend/data/`; database storage belongs to the installed PostgreSQL service; logs and process metadata are in `work/`.
 
 ```powershell
 .\scripts\stop-dev.ps1                  # Retains data
@@ -36,7 +36,7 @@ node tests/chaos/run.mjs                 # Running local stack required
 .\scripts\run-load-test.ps1 -Unthrottled # Temporarily disables and restores rate policies
 ```
 
-To intentionally erase local demo data, stop the app and use `scripts/reset-dev.ps1 -ConfirmReset`. This does not touch the system PostgreSQL service or Docker volumes.
+To intentionally erase local demo data, stop the app and use `scripts/reset-dev.ps1 -ConfirmReset`. This backs up and clears only the configured `sentinelx` PostgreSQL schema. It preserves connection settings, older H2 files and Docker volumes, and does not stop the shared PostgreSQL service.
 
 ## Try the complete flow
 
@@ -61,7 +61,7 @@ The demo records start empty and are held in each demo process's memory. They de
 - Per-instance/route CLOSED–OPEN–HALF_OPEN circuits; safe-read retries with exponential backoff.
 - Separate connection, response-body and total request timeouts; request/response size limits.
 - Request correlation, structured JSON logs, persisted request telemetry, audit events and real dashboards.
-- PostgreSQL migrations, a persistent H2 local mode, Docker Compose and Windows lifecycle scripts.
+- PostgreSQL persistence and migrations, Docker Compose and Windows lifecycle scripts.
 
 ## Architecture and source map
 
@@ -80,9 +80,11 @@ docs/                      Architecture, API, security, deployment and measured 
 
 [Architecture diagrams](docs/architecture/README.md) · [API reference](docs/api/README.md) · [Security](docs/security/README.md) · [Validation](docs/mvp-validation.md) · [Performance](docs/performance/README.md) · [AWS deployment design](docs/deployment/aws.md)
 
+Latest verification: [PostgreSQL conversion and test results](docs/validation/postgresql-conversion.md).
+
 ## PostgreSQL and Docker
 
-The default local mode uses a file-backed H2 database. For PostgreSQL, configure `DATABASE_URL`, `DATABASE_USER`, and `DATABASE_PASSWORD`. Migrations run automatically. Existing machine databases are not modified by the development scripts.
+Local startup uses the fresh `sentinelx` database on PostgreSQL at `127.0.0.1:5432`, with the dedicated `sentinelx_app` account. The startup script loads its generated password from ignored `backend/data/postgresql.json`. Alternatively, set `DATABASE_URL`, `DATABASE_USER`, and `DATABASE_PASSWORD` together. Migrations run automatically. Keep the installed PostgreSQL Windows service running; application shutdown does not stop it. Older H2 records were not imported. H2 is now available only to isolated automated tests and is excluded from the application package.
 
 ```powershell
 Copy-Item .env.example .env
@@ -101,3 +103,5 @@ This is a functional portfolio MVP, not a claim of production certification. The
 Production email delivery, Redis/distributed limits, caching, Prometheus/Grafana, tracing, WebSockets, weighted routing, canary releases and AWS deployment are not included. Log exploration is capped at the latest 1,000 rows; p95 and charts use the latest 10,000 retained requests. Request logs have a 30-day retention period. Connection failures during database outages are not buffered durably. See validation for actual tested outcomes and environment blockers.
 
 No Git repository was initialized, no commits were created, and nothing was connected or pushed to GitHub.
+
+

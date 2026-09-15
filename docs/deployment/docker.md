@@ -18,9 +18,9 @@ The gateway image is built using the retained Maven wrapper and JDK 25, then run
 | Variable | Default / meaning |
 |---|---|
 | PORT | 8080 gateway port |
-| DATABASE_URL | Local H2 file when absent; JDBC PostgreSQL URL in Compose |
-| DATABASE_USER | `sa` locally, `sentinelx` in Compose |
-| DATABASE_PASSWORD | External secret; required by Compose |
+| DATABASE_URL | `jdbc:postgresql://127.0.0.1:5432/sentinelx` locally; Compose overrides the host |
+| DATABASE_USER | `sentinelx_app` locally, `sentinelx` in Compose |
+| DATABASE_PASSWORD | Required secret; loaded from ignored local settings or provided externally |
 | DEMO_SEED | false by default; true only for explicit demo setup |
 | DEMO_HOST | localhost for native development, docker for Compose seeding |
 | UPSTREAM_HOSTS | Exact permitted upstream hostnames, comma separated |
@@ -29,3 +29,4 @@ The gateway image is built using the retained Maven wrapper and JDK 25, then run
 | DEMO_CONTROL_TOKEN | Required secret header value for enabled fault controls |
 
 The initial inspection found Docker installed with its Linux engine stopped. Docker Desktop was launched and the engine subsequently became available. See the validation record for actual build and runtime results; native PostgreSQL compatibility was also tested independently.
+

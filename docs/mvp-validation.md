@@ -2,6 +2,8 @@
 
 Validation date: **14 September 2026**. The existing backend was inspected before changes, retained, built, and extended in place. No Git repository, commit, remote or GitHub operation was created.
 
+Current runtime update: [15 September PostgreSQL conversion](validation/postgresql-conversion.md). The results below describe the original 14 September build.
+
 ## Automated results
 
 | Suite | H2 local database | PostgreSQL 18 isolated database |
@@ -93,3 +95,4 @@ docker compose down
 ```
 
 For the PostgreSQL test variant, create a **fresh dedicated test database** and set `TEST_DATABASE_URL`, `DATABASE_USER` and `DATABASE_PASSWORD` in the test process before running Maven tests. Test contexts deliberately reuse fixed account emails; do not point tests at an existing application database. Do not delete user/application databases to rerun tests.
+

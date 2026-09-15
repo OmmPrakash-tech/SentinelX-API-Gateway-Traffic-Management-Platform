@@ -1,0 +1,4 @@
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.94 s -- in com.example.backend.AccountIntegrationTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.101 s -- in com.example.backend.BackendApplicationTests
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 40.47 s -- in com.example.backend.GatewayIntegrationTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.617 s -- in com.example.backend.TrafficPrimitivesTest

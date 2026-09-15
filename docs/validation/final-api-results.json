@@ -1,0 +1,802 @@
+{
+  "timestamp": "2026-09-15T14:05:34.905Z",
+  "base": "http://127.0.0.1:18080",
+  "results": [
+    {
+      "name": "Public health, embedded frontend and static assets",
+      "status": "PASS"
+    },
+    {
+      "name": "Four role sign-ins and authenticated profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Anonymous, user, developer and operator authorization boundaries",
+      "status": "PASS"
+    },
+    {
+      "name": "Operator monitoring endpoints and active health check",
+      "status": "PASS"
+    },
+    {
+      "name": "Registration, validation and persistent profile update",
+      "status": "PASS"
+    },
+    {
+      "name": "API catalog, forwarding, correlation and CRUD on single-instance demo resources",
+      "status": "PASS"
+    },
+    {
+      "name": "Key creation, ownership, disable/enable, rotation and revocation",
+      "status": "PASS"
+    },
+    {
+      "name": "Administrator consumer inspection, tier update and revocation",
+      "status": "PASS"
+    },
+    {
+      "name": "Administrator service and instance lifecycle with origin validation",
+      "status": "PASS"
+    },
+    {
+      "name": "Dynamic route creation, update, method matching and removal",
+      "status": "FAIL",
+      "error": "OPTIONS /gateway/verify expected 404 got 200 \n\n200 !== 404\n"
+    }
+  ],
+  "calls": [
+    {
+      "method": "GET",
+      "path": "/health",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/index.html",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/app.js",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/style.css",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/sessions",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/sessions",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/sessions",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/sessions",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/users",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/users",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/users",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/services",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/services",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/ops/check-health",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/services",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/instances",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/routes",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/rate-limits",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/circuits",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/metrics",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/logs",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/instances",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/apis",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/products",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/orders",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/gateway/products",
+      "status": 201,
+      "expected": 201
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/products/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/gateway/orders",
+      "status": 201,
+      "expected": 201
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/orders/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/not-configured",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "DELETE",
+      "path": "/gateway/products",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/keys",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me/keys/{id}",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me/keys/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me/keys/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys/{id}/rotate",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/me/keys/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/consumers/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/consumers",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/consumers/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/users",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/services",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/services/{id}",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/instances",
+      "status": 400,
+      "expected": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/instances",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/ops/check-health",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/instances",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/routes",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "method": "GET",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "POST",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "PUT",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "PATCH",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "DELETE",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "HEAD",
+      "path": "/gateway/verify",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "method": "OPTIONS",
+      "path": "/gateway/verify",
+      "status": 200,
+      "expected": 404
+    }
+  ],
+  "coverage": [
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "covered": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "covered": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout-all",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/change-password",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/forgot-password",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/reset-password",
+      "covered": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "covered": true
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/sessions",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/users",
+      "covered": true
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/users/{id}",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/force-logout",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/users/{id}/force-reset",
+      "covered": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/consumers",
+      "covered": true
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/consumers/{id}",
+      "covered": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/consumers/{id}",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/audit",
+      "covered": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/quotas",
+      "covered": false
+    },
+    {
+      "method": "*",
+      "path": "/gateway/**",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/keys",
+      "covered": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys",
+      "covered": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/me/keys/{id}",
+      "covered": true
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/me/keys/{id}",
+      "covered": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/me/keys/{id}/rotate",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/metrics",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/metrics",
+      "covered": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/logs",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/requests",
+      "covered": false
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/services",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/instances",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/routes",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/me/apis",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/rate-limits",
+      "covered": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/ops/circuits",
+      "covered": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/services",
+      "covered": true
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/services/{id}",
+      "covered": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/services/{id}",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/instances",
+      "covered": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/instances/{id}",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/ops/check-health",
+      "covered": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/routes",
+      "covered": true
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/routes/{id}",
+      "covered": false
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/routes/{id}",
+      "covered": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/rate-limits",
+      "covered": false
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/rate-limits/{id}",
+      "covered": false
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/rate-limits/{id}",
+      "covered": false
+    }
+  ],
+  "authThrottleResponses": 0
+}

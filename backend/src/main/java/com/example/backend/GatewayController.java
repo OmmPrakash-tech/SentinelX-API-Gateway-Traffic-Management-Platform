@@ -32,7 +32,7 @@ public class GatewayController {
             }
         }return result;
     }
-    @RequestMapping("/gateway/**")
+    @RequestMapping(value="/gateway/**",method={RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.PATCH,RequestMethod.DELETE,RequestMethod.HEAD,RequestMethod.OPTIONS})
     public void proxy(HttpServletRequest req,HttpServletResponse res)throws IOException {
         long start=System.nanoTime();String requestId=String.valueOf(req.getAttribute("requestId")),path=req.getRequestURI().substring("/gateway".length());
         String user=null,key=null,service=null,instance=null;int status=500,retries=0;
@@ -93,3 +93,4 @@ public class GatewayController {
         }
     }
 }
+

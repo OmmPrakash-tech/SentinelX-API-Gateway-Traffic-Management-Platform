@@ -1,6 +1,7 @@
 param([switch]$SkipBuild)
 . "$PSScriptRoot\common.ps1"
 Use-Java
+. "$PSScriptRoot\postgres.ps1"
 $stateDir = Join-Path $ProjectRoot 'work'
 New-Item -ItemType Directory -Path $stateDir -Force | Out-Null
 $stateFile = Join-Path $stateDir 'processes.json'
@@ -13,6 +14,8 @@ if (-not $SkipBuild) {
     Push-Location "$ProjectRoot\backend"
     try { & .\mvnw.cmd package -DskipTests; if ($LASTEXITCODE -ne 0) { throw 'Backend build failed.' } } finally { Pop-Location }
 }
+Use-ProjectPostgres
+if (-not $env:DATABASE_URL.StartsWith('jdbc:postgresql://')) { throw 'SentinelX runtime requires a PostgreSQL DATABASE_URL.' }
 $controlFile = Join-Path $stateDir 'control-token.txt'
 if (-not (Test-Path -LiteralPath $controlFile)) { [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)) | Set-Content -LiteralPath $controlFile }
 $env:DEMO_CONTROL_TOKEN = (Get-Content -LiteralPath $controlFile -Raw).Trim()
@@ -42,3 +45,4 @@ try {
     & "$PSScriptRoot\stop-dev.ps1"
     throw
 } finally { Remove-Item Env:DEMO_CONTROL_TOKEN -ErrorAction SilentlyContinue }
+

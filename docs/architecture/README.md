@@ -18,7 +18,7 @@ flowchart TB
     Circuit --> B[User service B]
     Circuit --> Product[Product service]
     Circuit --> Order[Order service]
-    Accounts --> DB[(PostgreSQL / local H2)]
+    Accounts --> DB[(PostgreSQL)]
     Config --> DB
     Gateway --> DB
     Gateway --> JSON[Structured JSON logs]
@@ -285,3 +285,6 @@ flowchart LR
 ```
 
 This final diagram is a future design, not an executed deployment. See the AWS runbook for the shared-state prerequisite before scaling gateway instances.
+
+
+

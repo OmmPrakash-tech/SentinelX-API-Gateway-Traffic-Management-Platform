@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.atomic.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,properties={"spring.datasource.url=${TEST_DATABASE_URL:jdbc:h2:mem:gateway;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE}","sentinel.seed=false","sentinel.health-interval=60000"})
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,properties={"spring.datasource.username=${TEST_DATABASE_USER:sa}","spring.datasource.password=${TEST_DATABASE_PASSWORD:}","spring.datasource.url=${TEST_DATABASE_URL:jdbc:h2:mem:gateway;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE}","sentinel.seed=false","sentinel.health-interval=60000"})
 class GatewayIntegrationTest {
     @LocalServerPort int port;@Autowired Db db;@Autowired AuthService auth;@Autowired KeyController keys;@Autowired Registry registry;@Autowired ObjectMapper json;
     final HttpClient client=HttpClient.newHttpClient();HttpServer a,b;final AtomicInteger failures=new AtomicInteger(),calls=new AtomicInteger();final AtomicBoolean down=new AtomicBoolean();
@@ -31,6 +31,17 @@ class GatewayIntegrationTest {
     HttpResponse<String> request(String method,String path,String apiKey,String bearer,Object body)throws Exception{
         var builder=HttpRequest.newBuilder(URI.create("http://localhost:"+port+path)).header("X-Request-ID","integration-check").header("Content-Type","application/json");if(apiKey!=null)builder.header("X-API-Key",apiKey);if(bearer!=null)builder.header("Authorization","Bearer "+bearer);
         return client.send(builder.method(method,body==null?HttpRequest.BodyPublishers.noBody():HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build(),HttpResponse.BodyHandlers.ofString());
+    }
+    @Test void optionsUsesGatewayAuthenticationRoutingAndTelemetry()throws Exception{
+        db.update("UPDATE routes SET methods='GET,OPTIONS' WHERE id=?",route);
+        assertEquals(401,request("OPTIONS",path(),null,null,null).statusCode());
+        var forwarded=request("OPTIONS",path(),key,null,null);
+        assertEquals(200,forwarded.statusCode(),forwarded.body());
+        assertEquals(1,calls.get());
+        assertTrue(forwarded.headers().firstValue("X-SentinelX-Instance").isPresent());
+        db.update("UPDATE routes SET methods='GET' WHERE id=?",route);
+        assertEquals(404,request("OPTIONS",path(),key,null,null).statusCode());
+        assertEquals(3,Db.num(db.one("SELECT COUNT(*) AS n FROM request_logs WHERE method='OPTIONS' AND path=?",path().substring("/gateway".length())),"n"));
     }
     @Test void proxyRoundRobinHealthRecoveryAndCorrelation()throws Exception{
         var first=request("GET",path(),key,null,null);var second=request("GET",path(),key,null,null);assertEquals(200,first.statusCode(),first.body());assertEquals(200,second.statusCode());assertNotEquals(json.readValue(first.body(),Map.class).get("instance"),json.readValue(second.body(),Map.class).get("instance"));assertEquals("integration-check",first.headers().firstValue("X-Request-ID").orElseThrow());assertTrue(first.body().contains("integration-check"));assertTrue(first.body().contains("\"keyForwarded\":false"));
@@ -77,3 +88,5 @@ class GatewayIntegrationTest {
         assertEquals(200,request("GET","/gateway"+body.get("pathPrefix"),key,null,null).statusCode());body.put("enabled",false);assertEquals(200,request("PUT","/api/admin/routes/"+id,null,admin,body).statusCode());assertEquals(404,request("GET","/gateway"+body.get("pathPrefix"),key,null,null).statusCode());assertEquals(200,request("DELETE","/api/admin/routes/"+id,null,admin,null).statusCode());
     }
 }
+
+

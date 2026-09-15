@@ -51,8 +51,10 @@ Gateway log retention is 30 days. Audit and system-event records currently requi
 - Disable demo seed and local mailbox before exposure; bootstrap a real administrator through a controlled provisioning process.
 - Supply a unique database credential through secrets management; use least-privilege migration/runtime accounts.
 - Use TLS at trusted ingress, private downstream networking and restrictive egress rules.
-- Back up PostgreSQL and test restores; file-backed H2 is for local development.
+- Back up PostgreSQL and test restores; local runtime also uses PostgreSQL, and H2 is restricted to automated tests.
 - Add production recovery delivery, centralized security controls and shared traffic state before multi-instance scaling.
 - Review data retention, frontend CSP, pagination limits, overload handling and observability for the intended workload.
 
 The integration and concurrency tests provide evidence for specific behaviors; they are not a security audit or production-readiness certification.
+
+

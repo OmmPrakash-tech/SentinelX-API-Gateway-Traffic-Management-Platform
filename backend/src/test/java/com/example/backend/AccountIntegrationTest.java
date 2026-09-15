@@ -11,7 +11,7 @@ import java.nio.file.*;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,properties={"spring.datasource.url=${TEST_DATABASE_URL:jdbc:h2:mem:account;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE}","sentinel.reset-directory=./target/test-mailbox","sentinel.seed=false"})
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT,properties={"spring.datasource.username=${TEST_DATABASE_USER:sa}","spring.datasource.password=${TEST_DATABASE_PASSWORD:}","spring.datasource.url=${TEST_DATABASE_URL:jdbc:h2:mem:account;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE}","sentinel.reset-directory=./target/test-mailbox","sentinel.seed=false"})
 class AccountIntegrationTest {
     @LocalServerPort int port;@Autowired Db db;@Autowired AuthService auth;@Autowired ObjectMapper json;
     final HttpClient client=HttpClient.newHttpClient();
@@ -47,3 +47,4 @@ class AccountIntegrationTest {
         assertThrows(ApiError.class,()->auth.reset("invalid","Local-password-123","Local-password-123"));
     }
 }
+
